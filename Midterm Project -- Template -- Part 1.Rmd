@@ -1,0 +1,281 @@
+---
+title: "Data Science Consulting:  Midterm Team Project -- Part 1"
+author: ""
+date: ""
+output: html_document
+---
+
+```{r setup, include=FALSE}
+set.seed(72)
+knitr::opts_chunk$set(echo = TRUE, comment="", warning = FALSE, message = FALSE, tidy.opts=list(width.cutoff=55))
+```
+
+```{r libraries, echo = FALSE}
+library(data.table)
+library(DT)
+library(randomForest)
+library(caret)
+library(rpart)
+```
+
+```{r source_files}
+
+```
+
+```{r load_data}
+train <- read.csv("MNIST-fashion training set-49.csv")
+test <- read.csv("MNIST-fashion testing set-49.csv")
+```
+
+```{r clean_data}
+train$label = factor(train$label)
+test$label = factor(test$label)
+```
+
+```{r constants}
+samples <- c("dat_500_1", "dat_500_2", "dat_500_3", 
+             "dat_1000_1", "dat_1000_2", "dat_1000_3",
+             "dat_2000_1", "dat_2000_2", "dat_2000_3")
+```
+
+```{r functions}
+#1. sample generation function
+sample_split = function(data,size,n){
+  sample_data <- data[sample(1:nrow(data), size*3), ]
+  sample_split <- split(sample_data, 
+                       rep(1:3, length.out = nrow(sample_data), 
+                           each = ceiling(nrow(sample_data)/3)))
+  return(sample_split[[n]])
+}
+
+
+#2. iteration function & model score calculation
+model_iteration <- function(model, rf_ntree){
+  if(model == "Random Forest"){
+    A_datasize <- vector()
+    B_runtime <- vector()
+    C_misclassified <- vector()
+    for(i in samples){
+      #get sample size
+      sample = get(i)
+      size = nrow(sample)
+      A_datasize <- c(A_datasize, size)
+      #calculate model run time
+      start <- as.ITime(Sys.time())
+      C_misclassified <- c(C_misclassified, sum(random_forest(sample, rf_ntree) != test$label)/nrow(test))
+      end <- as.ITime(Sys.time())
+      interval <- difftime(end, start, units = "secs")
+      B_runtime <- c(B_runtime, min(1, interval/60))
+    }
+    return(data.table(A_datasize, B_runtime))
+  } else if(model == "Classification Tree"){
+    A_datasize <- vector()
+    B_runtime <- vector()
+    C_misclassified <- vector()
+    for(i in samples){
+      #get sample size
+      sample = get(i)
+      size = nrow(sample)
+      A_datasize <- c(A_datasize, size)
+      #calculate model run time
+      start <- as.ITime(Sys.time())
+      C_misclassified <- c(C_misclassified, sum(classification_tree(sample) != test$label)/nrow(test))
+      end <- as.ITime(Sys.time())
+      interval <- difftime(end, start, units = "secs")
+      B_runtime <- c(B_runtime, min(1, interval/60))
+    }
+    return(data.table(A_datasize, B_runtime, C_misclassified))
+  }
+}
+
+#scores summary function
+scores_summary <- function(model_num, dt){
+  df <- cbind("Data" = samples, dt)
+  dt2 <- data.table('Model' = model_num, 'Sample Size' = df$A_datasize, 'Data' = df$Data,
+                   'A' = df$A_datasize/nrow(train),
+             'B' = min(1, df$B_runtime/60),
+             'C' = df$C_misclassified/nrow(test),
+             'Points' = 0.15*df$A_datasize/nrow(train)+0.1*min(1, df$B_runtime/60)+0.75*df$C_misclassified/nrow(test))
+  return(dt2)
+}
+
+```
+
+
+```{r generate_samples}
+dat_500_1 <- sample_split(train, 500, 1)
+dat_500_2 <- sample_split(train, 500, 2)
+dat_500_3 <- sample_split(train, 500, 3)
+dat_1000_1 <- sample_split(train, 1000, 1)
+dat_1000_2 <- sample_split(train, 1000, 2)
+dat_1000_3 <- sample_split(train, 1000, 3)
+dat_2000_1 <- sample_split(train, 2000, 1)
+dat_2000_2 <- sample_split(train, 2000, 2)
+dat_2000_3 <- sample_split(train, 2000, 3)
+```
+
+
+## Introduction {.tabset}
+
+
+### Model 1
+
+
+
+```{r code_model1_development, eval = TRUE}
+#classification tree
+classification_tree <- function(sample){
+  #run model
+  tree <- rpart(label ~ ., data = sample, method = 'class')
+  #predicting test set
+  pred <- predict(tree, newdata = test, type = "class")
+  return(pred)
+}
+```
+
+```{r load_model1}
+ct_model_score <- model_iteration(model = "Classification Tree")
+scores_summary("Model 2", ct_model_score) 
+
+```
+
+### Model 2
+
+
+```{r code_model2_development, eval = TRUE}
+#random forest
+random_forest <- function(sample, ntree){
+  set.seed(72)
+  #model tuning
+  trControl = trainControl(method = 'cv', number = 49)
+  tuneGrid = expand.grid(mtry = 2:49)
+  #fit model
+  cvModel = train(label ~ ., data = sample, method = 'rf', ntree = ntree,
+                trControl = trControl, tuneGrid = tuneGrid)
+  cvForest = randomForest(label ~ ., data = sample, ntree = ntree, mytry = cvModel$bestTune$mtry)
+  #predicting test set
+  cvForest_pred = predict(cvForest, newdata = test)
+  return(cvForest_pred)
+}
+```
+
+```{r load_model2}
+rf_model_score <- model_iteration(model = "Random Forest", rf_ntree = 3)
+scores_summary("Model 1", rf_model_score)
+```
+
+### Model 3
+
+
+```{r code_model3_development, eval = TRUE}
+
+```
+
+```{r load_model3}
+
+```
+
+### Model 4
+
+
+```{r code_model4_development, eval = TRUE}
+
+```
+
+```{r load_model4}
+
+```
+
+### Model 5
+
+
+```{r code_model5_development, eval = TRUE}
+
+```
+
+```{r load_model5}
+
+```
+
+### Model 6
+
+
+```{r code_model6_development, eval = TRUE}
+
+```
+
+```{r load_model6}
+
+```
+
+### Model 7
+
+
+```{r code_model7_development, eval = TRUE}
+
+```
+
+```{r load_model7}
+
+```
+
+### Model 8
+
+
+```{r code_model8_development, eval = TRUE}
+
+```
+
+```{r load_model8}
+
+```
+
+### Model 9
+
+
+```{r code_model9_development, eval = TRUE}
+
+```
+
+```{r load_model9}
+
+```
+
+### Model 10
+
+
+```{r code_model10_development, eval = TRUE}
+
+```
+
+```{r load_model10}
+
+```
+
+## Scoreboard
+
+```{r scoreboard}
+
+```
+
+## Discussion
+
+
+## Model Development Responsibilities
+
+For the 10 models, please list the names of the developers along with percentages for how the responsibilities were divided.
+
+1.  
+2. 
+3. 
+4.
+5.
+6.
+7.
+8.
+9.
+10.
+
+## References
+
+
