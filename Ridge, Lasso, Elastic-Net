@@ -1,0 +1,62 @@
+#Ridge, Lasso, Elastic-Net regression 
+library(glmnet)
+library(tidyverse)
+library(caret)
+library(data.table)
+
+
+set.seed(42)
+
+train <- read.csv("MNIST-fashion training set-49.csv")
+test <- read.csv("MNIST-fashion testing set-49.csv")
+
+dim(train)
+
+n <- 60000
+p <- 50
+real_p = 10
+
+x <- matrix(rnorm(n*p), nrow = n, ncol = p)
+
+y <- apply(x[,1:real_p],1,sum) + rnorm(n)
+
+train_rows <- sample(1:n, .70*n)
+x.train <- x[train_rows,]
+x.test <- x[-train_rows,]
+
+y.train <- y[train_rows]
+y.test <- y[-train_rows]
+
+#Ridge 
+alpha0.fit <- cv.glmnet(x.train, y.train, type.measure = "mse", 
+                        alpha = 0, family = "gaussian")
+
+alpha0.predicted <- 
+  predict(alpha0.fit, s = alpha0.fit$lambda.1se, newx = x.test)
+
+mean((y.test - alpha0.predicted)^2)
+
+#1.029104
+
+#Lasso 
+alpha1.fit <- cv.glmnet(x.train, y.train, type.measure = "mse",
+                        alpha = 1, family = "gaussian")
+
+alpha1.predicted <- 
+  predict(alpha1.fit, s = alpha1.fit$lambda.1se, newx = x.test)
+
+mean((y.test - alpha1.predicted)^2)
+
+#1.022019
+
+#Elastic-Net 
+alpha0.5.fit <- cv.glmnet(x.train, y.train, type.measure = "mse", 
+                          alpha = 0.5, family = "gaussian")
+
+
+alpha0.5.predicted <- 
+  predict(alpha0.5.fit, s = alpha0.5.fit$lambda.1se, newx = x.test)
+
+mean((y.test - alpha0.5.predicted)^2)
+
+#1.023218
