@@ -71,6 +71,7 @@ for ( i in 0:10) {
 
 results <- data.frame()
 for (i in 0:10){
+  fit.name <- paste0("alpha", i/10)
   
   predicted <-
     predict(list.of.fits[[fit.name]],
@@ -84,17 +85,14 @@ for (i in 0:10){
   results
   
   alpha      mse fit.name
-  1    0.0 1.020667   alpha1
-  2    0.1 1.020667   alpha1
-  3    0.2 1.020667   alpha1
-  4    0.3 1.020667   alpha1
-  5    0.4 1.020667   alpha1
-  6    0.5 1.020667   alpha1
-  7    0.6 1.020667   alpha1
-  8    0.7 1.020667   alpha1
-  9    0.8 1.020667   alpha1
-  10   0.9 1.020667   alpha1
+  1    0.0 1.029104   alpha0
+  2    0.1 1.020649 alpha0.1
+  3    0.2 1.022529 alpha0.2
+  4    0.3 1.024722 alpha0.3
+  5    0.4 1.020576 alpha0.4
+  6    0.5 1.020390 alpha0.5
+  7    0.6 1.021900 alpha0.6
+  8    0.7 1.021014 alpha0.7
+  9    0.8 1.021673 alpha0.8
+  10   0.9 1.022543 alpha0.9
   11   1.0 1.020667   alpha1
-
-
-
