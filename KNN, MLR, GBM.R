@@ -47,7 +47,7 @@ MLR <- function(data) {
 
 # KNN
 KNN <- function(data) {
-  result = knn(data[, -1], test_data[, -1], data$label, k = 10)
+  knn.model = knn(data[, -1], test_data[, -1], data$label, k = 10)
 }
 
 
@@ -96,7 +96,7 @@ for (k in 1:length(models)) {
       Data = paste('dat_',sample_size[i],'_',j, sep = '')
       A = sample_size[i]/60000
       B = min(1,sys_time/60)
-      C = sum(test_data$label == pred)/NROW(test_data$label)
+      C = (1- sum(test_data$label == pred)/NROW(test_data$label))
       Points = 0.15 * A + 0.1 * B + 0.75 * C
       score_row = data.frame(Model, 'Sample Size' = sample_size[i], Data, A, B, C, Points)
       scoreboard = rbind(scoreboard,score_row)
