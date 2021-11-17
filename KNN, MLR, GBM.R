@@ -46,8 +46,8 @@ MLR <- function(data) {
 
 
 # KNN
-KNN <- function(data) {
-  knn.model = knn(data[, -1], test_data[, -1], data$label, k = 10)
+KNN <- function(data, K = 10) {
+  knn.model = knn(data[, -1], test_data[, -1], data$label, k = K)
 }
 
 
