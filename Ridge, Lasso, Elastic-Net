@@ -60,3 +60,41 @@ alpha0.5.predicted <-
 mean((y.test - alpha0.5.predicted)^2)
 
 #1.023218
+list.of.fits <- list()
+for ( i in 0:10) {
+  fit.name <- paste0("alpha", i/10)
+  
+  list.of.fits[[fit.name]] <-
+    cv.glmnet(x.train, y.train, type.measure = "mse", alpha = i/10,
+              family = "gaussian")
+}
+
+results <- data.frame()
+for (i in 0:10){
+  
+  predicted <-
+    predict(list.of.fits[[fit.name]],
+            s=list.of.fits[[fit.name]]$lambda.1se, newx = x.test)
+  
+  mse <- mean((y.test - predicted)^2)
+  
+  temp <- data.frame(alpha = i/10, mse = mse, fit.name=fit.name)
+  results <- rbind(results, temp)
+}
+  results
+  
+  alpha      mse fit.name
+  1    0.0 1.020667   alpha1
+  2    0.1 1.020667   alpha1
+  3    0.2 1.020667   alpha1
+  4    0.3 1.020667   alpha1
+  5    0.4 1.020667   alpha1
+  6    0.5 1.020667   alpha1
+  7    0.6 1.020667   alpha1
+  8    0.7 1.020667   alpha1
+  9    0.8 1.020667   alpha1
+  10   0.9 1.020667   alpha1
+  11   1.0 1.020667   alpha1
+
+
+
