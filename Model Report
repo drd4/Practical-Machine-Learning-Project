@@ -2,6 +2,7 @@ MODEL REPORT
 
 1. Introduction
 
+In this project, 10 machine learning models were created to predict 10 types of product labels based on 49 color pixels (7x7 images). For each model, 60,000 rows of training data were used and the models were tested on 10,000 rows of testing data. The 10 types of product labels the models were trained to predict are: T-shirt/top Trouser, Pullover, Dress, Coat, Sandal, Shirt, Sneaker, Bag, and Ankle boot. Each color pixel is recorded as a brightness measurement in grayscale with 0 denoting white and 255 denoting black. The details of how each parameter for each model was chosen is described in the Discussion section of this report. 
 
 2. Discussion
 
