@@ -72,7 +72,7 @@ test$label = factor(test$label)
 
 ```{r code_model1_development, eval = TRUE}
 Model1 <- function(data){
-  tree <- rpart(label ~ ., data = data, method = 'class')
+  tree <- rpart(label ~ ., data = data, method = "class")
   pred <- predict(tree, newdata = test, type = "class")
   return(pred)
 }
