@@ -134,7 +134,7 @@ Model4<- function(data) {
 
 ```{r code_model5_development, eval = TRUE}
 Model5 <- function(data) {
-  pred = knn(data[, -1], test[, -1], data$label, k = 10)
+  pred = knn(data[, -1], test[, -1], data$label, k = 5)
   return(pred)
 }
 ```
