@@ -299,12 +299,12 @@ datatable(scoreboard_summary)
 
 For the 10 models, please list the names of the developers along with percentages for how the responsibilities were divided.
 
-1. Daniel
+1. 
 2. Devin
 3. Phoebe
-4. Phoebe
-5. Devin
-6. Daniel
+4. Daniel
+5. Daniel
+6. 
 7. Haodong
 8. Haodong
 9. Haodong
