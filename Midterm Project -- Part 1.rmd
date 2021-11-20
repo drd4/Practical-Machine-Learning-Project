@@ -88,11 +88,16 @@ Model1 <- function(data){
 
 
 ```{r code_model2_development, eval = TRUE}
+#bagging to find optimal number of trees
+#bag_5000 <- randomForest(label ~ ., data = dat_5000_1, mtry = 24, ntree = 50)
+#bag_10000 <- randomForest(label ~ ., data = dat_10000_1, mtry = 24, ntree = 50)
+#3bag_20000 <- randomForest(label ~ ., data = dat_20000_1, mtry = 24, ntree = 50)
+
 Model2 <- function(data){
   #trControl = trainControl(method = 'cv', number = 49)
   #tuneGrid = expand.grid(mtry = 2:49)
   #Model = train(label ~ ., data = sample, method = 'rf', ntree = ntree, trControl = trControl, tuneGrid = tuneGrid)
-  model = randomForest(label ~ ., data = data, ntree=50, mtry=2, importance=TRUE,proximity = TRUE)
+  model = randomForest(label ~ ., data = data, ntree=25, mtry=24, importance=TRUE,proximity = TRUE)
   pred = predict(model, newdata = test)
   return(pred)
 }
@@ -167,17 +172,11 @@ Model6 = function(data){
 
 
 ```{r code_model7_development, eval = TRUE}
-Model7 <- function(data){
-  model  <- gbm(label ~ ., data = data, 
-                 distribution = "multinomial",n.trees = 25, 
-                 shrinkage = 0.01, interaction.depth = 4)
-  pred = predict(model, newdata=test)
-  pred = as.data.frame(pred)
-  colnames(pred) = levels(as.factor(test$label))
-  pred$prediction = apply(pred,1,function(x) colnames(pred)[which.max(x)])
-  return(pred$prediction)
+Model7 = function(data){
+  model = svm(as.factor(label) ~ ., data = data, kernel = "radial", scale = T)
+  pred = predict(model, test[,-1])
+  return(pred)
 }
-
 ```
 
 ```{r load_model7}
@@ -265,8 +264,8 @@ Model10 = function(data){
 * Model 3: Random Forest with 100 trees and 3 mtry
 * Model 4: Multinomial Logistic Regression
 * Model 5: K-Nearest Neighbors
-* Model 6: Support Vector Machines
-* Model 7: Generalized Boosted Regression Models with 25 trees
+* Model 6: Support Vector Machines with Linear Kernel
+* Model 7: Support Vector Machines with RBF Kernel
 * Model 8: Generalized Boosted Regression Models with 50 trees
 * Model 9: Extreme Gradient Boosting Regression Models with max.depth = 20
 * Model 10: Extreme Gradient Boosting Regression Models with max.depth = 40
