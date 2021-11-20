@@ -14,3 +14,10 @@ Random Forest models reduces the variance when averaging a tree by decorrelating
 
 For our random forest model, a tuneGrid was used to fit from 2 to 49 variables (since there are 49 pixels). From this tuneGrid, it was found that a mtry of 24 yielded the best model so this parameter was used for all sample sizes. Once this was determined, this parameter was used in bagging in order to identify the optimal number of trees to include in the model. After plotting the bags for each sample size, it was determined that the best number of trees is between 20 and 25 as the amount of error no longer decreased after having more than 25 trees. Thus, we createed 2 random tree models that used 20 trees and 25 trees respectively. 
 
+
+
+Model 6: Support Vector Machines
+Support Vector Machines are supervised learning models with associated learning algorithms that analyze data for classification and regression analysis, which is more effecticve in high dimensional spaces
+
+Model 7, 8, 9 & 10: Generalized Boosted Regression Models
+
