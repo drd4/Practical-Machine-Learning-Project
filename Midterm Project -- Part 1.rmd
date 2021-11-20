@@ -28,8 +28,7 @@ library(gbm)
 ```
 
 ```{r source_files}
-train <- read.csv("MNIST-fashion training set-49.csv")
-test <- read.csv("MNIST-fashion testing set-49.csv")
+
 ```
 
 ```{r functions}
@@ -40,9 +39,6 @@ sample_split = function(data,size,n){
                            each = ceiling(nrow(sample_data)/3)))
   return(sample_split[[n]])
 }
-normalize <- function(x) {
-  return ((x - min(x)) / (max(x) - min(x))) }
-
 ```
 
 ```{r constants}
@@ -51,12 +47,18 @@ iterations <- 3
 ```
 
 ```{r load_data}
-
+train <- read.csv("MNIST-fashion training set-49.csv")
+test <- read.csv("MNIST-fashion testing set-49.csv")
 ```
 
 ```{r clean_data}
+# change label to factor
 train$label = factor(train$label)
 test$label = factor(test$label)
+
+# normalize data
+train[,-1] = scale(train[,-1])
+test[,-1] = scale(test[,-1])
 ```
 
 ```{r generate_samples}
@@ -72,7 +74,7 @@ test$label = factor(test$label)
 
 ```{r code_model1_development, eval = TRUE}
 Model1 <- function(data){
-  tree <- rpart(label ~ ., data = data, method = "class")
+  tree <- rpart(label ~ ., data = data, method = 'class')
   pred <- predict(tree, newdata = test, type = "class")
   return(pred)
 }
@@ -87,6 +89,9 @@ Model1 <- function(data){
 
 ```{r code_model2_development, eval = TRUE}
 Model2 <- function(data){
+  #trControl = trainControl(method = 'cv', number = 49)
+  #tuneGrid = expand.grid(mtry = 2:49)
+  #Model = train(label ~ ., data = sample, method = 'rf', ntree = ntree, trControl = trControl, tuneGrid = tuneGrid)
   model = randomForest(label ~ ., data = data, ntree=50, mtry=2, importance=TRUE,proximity = TRUE)
   pred = predict(model, newdata = test)
   return(pred)
@@ -102,7 +107,7 @@ Model2 <- function(data){
 
 ```{r code_model3_development, eval = TRUE}
 Model3 <- function(data){
-  model = randomForest(label ~ ., data = data, ntree=50, mtry=2, importance=TRUE,proximity = TRUE)
+  model = randomForest(label ~ ., data = data, ntree=100, mtry=3, importance=TRUE,proximity = TRUE)
   pred = predict(model, newdata = test)
   return(pred)
 }
@@ -134,7 +139,7 @@ Model4<- function(data) {
 
 ```{r code_model5_development, eval = TRUE}
 Model5 <- function(data) {
-  pred = knn(data[, -1], test[, -1], data$label, k = 5)
+  pred = knn(data[, -1], test[, -1], data$label, k = 10)
   return(pred)
 }
 ```
@@ -255,6 +260,18 @@ Model10 = function(data){
 
 ## Scoreboard
 
+* Model 1: Classification Tree
+* Model 2: Random Forest with 50 trees and 2 mtry
+* Model 3: Random Forest with 100 trees and 3 mtry
+* Model 4: Multinomial Logistic Regression
+* Model 5: K-Nearest Neighbors
+* Model 6: Support Vector Machines
+* Model 7: Generalized Boosted Regression Models with 25 trees
+* Model 8: Generalized Boosted Regression Models with 50 trees
+* Model 9: Extreme Gradient Boosting Regression Models with max.depth = 20
+* Model 10: Extreme Gradient Boosting Regression Models with max.depth = 40
+
+
 ```{r scoreboard}
 models = c(Model1,Model2,Model3,Model4,Model5,Model6,Model7,Model8,Model9,Model10)
 
@@ -282,11 +299,12 @@ datatable(scoreboard)
 
 ```
 
-scoreboard summary
+**scoreboard summary**
 
 ```{r scoreboard summary}
 scoreboard_summary = scoreboard %>% group_by(Model,Sample.Size) %>% 
-  summarize(A = round(mean(A),4), B = round(mean(B),4), C = round(mean(C),4), Points = round(mean(Points),4))
+  summarize(A = round(mean(A),4), B = round(mean(B),4), C = round(mean(C),4), Points = round(mean(Points),4)) %>% 
+  arrange(Points)
 datatable(scoreboard_summary)
 ```
 
@@ -299,16 +317,16 @@ datatable(scoreboard_summary)
 
 For the 10 models, please list the names of the developers along with percentages for how the responsibilities were divided.
 
-1. 
-2. Devin
+1. Phoebe
+2. Phoebe
 3. Phoebe
 4. Daniel
 5. Daniel
-6. 
+6. Haodong
 7. Haodong
-8. Haodong
+8. Devin
 9. Haodong
-10. Haodong
+10. Devin
 
 ## References
 
