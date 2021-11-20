@@ -18,8 +18,13 @@ For our random forest model, a tuneGrid was used to fit from 2 to 49 variables (
 
 Model 6 & 7: Support Vector Machines
 Support Vector Machines are supervised learning models with associated learning algorithms that analyze data for classification and regression analysis, which is more effecticve in high dimensional spaces. There are 4 main kernels in the SVM, and we select Linear and Gaussian (RBF) for this porject. Linear Kerenl is the most basic type of kernel, and it proves to be the best function when there are lots of features. RBF is one of the most preferred and used kernel functions in svm, and it is usually chosen for non-linear data, which usually helps to make proper separation when there is no prior knowledge of data.
-These two molde
+These two models have the best performance among 10 models because they provide a clear margin of separation and are very effective for dataset that having many features. However, Support Vector Machines also have disadvantages. They required higher trainning time and is very sensitive to outliers. 
 
 
 Model 8, 9 & 10: Generalized Boosted Regression Models
+Like Random Forest, Gradient Boosting is another technique for performing supervised machine learning tasks, like classification and regression. The implementations of this technique can have different names, most commonly you encounter Gradient Boosting machines (GBM) and XGBoost.
+
+
+
+
 
