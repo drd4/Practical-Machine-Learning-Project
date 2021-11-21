@@ -25,7 +25,8 @@ However, MLR also has several advantages.  For example, MLR is  simple to implem
 Model 5:  KNN
 
 K Nearest Neighbor (KNN) is a supervised machine learning algorithm that is used for classification.  KNN uses similarity measures to classify categorical outcomes.  Conceptually, KNN analyzes a value's neighbors (points around it) to determine similarity.  K represents the number of nearest neighbours to include in the algorithm.  KNN requires the data to be normalized so all of the features in the model are on the same scale and is good practice to convert the dependent variable to a factor.  
-There are several options for selecting the value for K in the model.  For example, K can be estimated by the square root of the number of samples in the training dataset.  However, when there is a large sample size, a high K value will require extensive computing power and time, sacrificing performance.   Another method is by trial and comparison of different K values until the suitable balance between accuracy and speed is determined.  
+There are several options for selecting the value for K in the model.  For example, K can be estimated by the square root of the number of samples in the training dataset.  However, when there is a large sample size, a high K value will require extensive computing power and time, sacrificing performance.   Another method is by trial and comparison of different K values until the suitable balance between accuracy and speed is determined.   One advantage of KNN is it is easy to implement and does not require a training period.  However, there are several disadvantages. For example KNN does not work well with very large datasets as the model requires a high level of computing power.
+
 
 
 Model 6 & 7: Support Vector Machines
