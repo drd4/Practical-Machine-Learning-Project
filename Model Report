@@ -14,6 +14,21 @@ Random Forest models reduces the variance when averaging a tree by decorrelating
 
 For our random forest model, a tuneGrid was used to fit from 2 to 49 variables (since there are 49 pixels). From this tuneGrid, it was found that a mtry of 24 yielded the best model so this parameter was used for all sample sizes. Once this was determined, this parameter was used in bagging in order to identify the optimal number of trees to include in the model. After plotting the bags for each sample size, it was determined that the best number of trees is between 20 and 25 as the amount of error no longer decreased after having more than 25 trees. Thus, we createed 2 random tree models that used 20 trees and 25 trees respectively. 
 
+Model 4:  Multinomial Logistic Regression 
+
+Multinomial Logistic Regression (MLR) is similar to logistic regression as they are used for predictive analysis, however the MLR is more generalized as the dependent variable is not restricted to binary (0/1, True/False)..  Specifically, a MLR model is used to classify a dependent variable in this case label with levels: ankle boot, bag, dress, coat etc. , with multiple independent variables, pixels 1:49. 
+
+Multinomial logistic regression has several disadvantages.  For example, MLR has the assumption of linearity between the independent and dependent variables.  Additionally, algorithms such as neural networks are much better suited for exploring complex relationships.  
+However, MLR also has several advantages.  For example, MLR is  simple to implement, test, and interpret. As a result, MLR is often the benchmark model to measure performance.  
+
+
+
+Model 5:  KNN
+
+K Nearest Neighbor (KNN) is a supervised machine learning algorithm that is used for classification.  KNN uses similarity measures to classify categorical outcomes.  Conceptually, KNN analyzes a value's neighbors (points around it) to determine similarity.  K represents the number of nearest neighbours to include in the algorithm.  KNN requires the data to be normalized so all of the features in the model are on the same scale and is good practice to convert the dependent variable to a factor.  
+There are several options for selecting the value for K in the model.  For example, K can be estimated by the square root of the number of samples in the training dataset.  However, when there is a large sample size, a high K value will require extensive computing power and time, sacrificing performance.   Another method is by trial and comparison of different K values until the suitable balance between accuracy and speed is determined.  
+
+
 
 
 Model 6 & 7: Support Vector Machines
