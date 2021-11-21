@@ -92,6 +92,10 @@ Model1 <- function(data){
 #bag_5000 <- randomForest(label ~ ., data = dat_5000_1, mtry = 24, ntree = 50)
 #bag_10000 <- randomForest(label ~ ., data = dat_10000_1, mtry = 24, ntree = 50)
 #3bag_20000 <- randomForest(label ~ ., data = dat_20000_1, mtry = 24, ntree = 50)
+#par(mfrow = c(3,1))
+#plot(bag_5000)
+#plot(bag_10000)
+#plot(bag_20000)
 
 Model2 <- function(data){
   #trControl = trainControl(method = 'cv', number = 49)
