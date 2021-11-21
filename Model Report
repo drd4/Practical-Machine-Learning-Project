@@ -1,15 +1,15 @@
-MODEL REPORT
+#### Introduction
 
-1. Introduction
+In this project, 10 machine learning models were created to predict 10 types of product labels based on 49 color pixels (7x7 images). For each model, 60,000 rows of training data were used and the models were tested on 10,000 rows of testing data. The 10 types of product labels the models were trained to predict are: T-shirt/top Trouser, Pullover, Dress, Coat, Sandal, Shirt, Sneaker, Bag, and Ankle boot. Each color pixel is recorded as a brightness measurement in grayscale with 0 denoting white and 255 denoting black. The details of how each parameter for each model was chosen is described below. 
 
-In this project, 10 machine learning models were created to predict 10 types of product labels based on 49 color pixels (7x7 images). For each model, 60,000 rows of training data were used and the models were tested on 10,000 rows of testing data. The 10 types of product labels the models were trained to predict are: T-shirt/top Trouser, Pullover, Dress, Coat, Sandal, Shirt, Sneaker, Bag, and Ankle boot. Each color pixel is recorded as a brightness measurement in grayscale with 0 denoting white and 255 denoting black. The details of how each parameter for each model was chosen is described in the Discussion section of this report below. 
-https://github.com/drd4/Practical-Machine-Learning-Project/blob/main/Model%20Report
-2. Discussion
+#### Discussion
 
-Model 1: Classification Tree - Phoebe
+Model 1: Classification Tree
+
 Since the variable being predicted (product label) is a categorical variable and classification trees are used to predict categorical variables, we chose to build a classification tree for our first model. A classification tree predictsthat each obseravtion belongs to the most commonly occurring class of training observations in the region to which it belongs. This model performed well in term of run time as all run-times were near 0 seconds. However, with no parameters, this model did not yield the highest accuracy compared to other models. Overall, a classification tree is a quick and easy model to fit for predicting categorical outcomes, but may not yield the highest accuracy compared to other machine learning models.
 
-Model 2 & 3: Random Forest - Phoebe
+Model 2 & 3: Random Forest
+
 Random Forest models reduces the variance when averaging a tree by decorrelating the tree. Specifically, a random selection of n predictors is chosen as split candidates each time a split happens and only 1 of the n predictors is used as the split. A new selection of n predictors is chosen at each split. This ensures that not all trees will use the strongest predictor as the first split, which can thus reduce the variance of a tree. Because of this technique, random forests can generate more accurate predictions than other trees (such as classification trees), but as the training sample increases in size and as there are more parameters to tune, random forests can take longer to run.
 
 For our random forest model, a tuneGrid was used to fit from 2 to 49 variables (since there are 49 pixels). From this tuneGrid, it was found that a mtry of 24 yielded the best model so this parameter was used for all sample sizes. Once this was determined, this parameter was used in bagging in order to identify the optimal number of trees to include in the model. After plotting the bags for each sample size, it was determined that the best number of trees is between 20 and 25 as the amount of error no longer decreased after having more than 25 trees. Thus, we createed 2 random tree models that used 20 trees and 25 trees respectively. 
@@ -28,13 +28,14 @@ K Nearest Neighbor (KNN) is a supervised machine learning algorithm that is used
 There are several options for selecting the value for K in the model.  For example, K can be estimated by the square root of the number of samples in the training dataset.  However, when there is a large sample size, a high K value will require extensive computing power and time, sacrificing performance.   Another method is by trial and comparison of different K values until the suitable balance between accuracy and speed is determined.   One advantage of KNN is it is easy to implement and does not require a training period.  However, there are several disadvantages. For example KNN does not work well with very large datasets as the model requires a high level of computing power.
 
 
-
 Model 6 & 7: Support Vector Machines
+
 Support Vector Machines are supervised learning models with associated learning algorithms that analyze data for classification and regression analysis, which is more effecticve in high dimensional spaces. There are 4 main kernels in the SVM, and we select Linear and Gaussian (RBF) for this porject. Linear Kerenl is the most basic type of kernel, and it proves to be the best function when there are lots of features. RBF is one of the most preferred and used kernel functions in svm, and it is usually chosen for non-linear data, which usually helps to make proper separation when there is no prior knowledge of data.
 These two models have the best performances (Linear Kerenl is the number 1 model) among 10 models because they provide a clear margin of separation and are very effective for dataset that having many features. However, Support Vector Machines also have disadvantages. They required higher trainning time and is very sensitive to outliers. 
 
 
-Model 8, 9 & 10: Generalized Boosted Regression Models
+Model 8, 9, & 10: Generalized Boosted Regression Models
+
 Like Random Forest, Gradient Boosting is another technique for performing supervised machine learning tasks, like classification and regression. The implementations of this technique can have different names, most commonly you encounter Gradient Boosting machines (GBM) and XGBoost, so in this project, we used GBM and XGBoost. For GBM, we used mutinominal for the distribution because we have 10 classifications. For XGBoost, we built two models. One is the model with 20 max.depth, and the other one has 40 max.depth. Generalized Boosted Regression Models often provide predictive accuracy that cannot be beat, but they were not in the top 10 this time because GBMs continue improving to minimize all errors, which can overemphasize outliers and cause overfitting, and we can use cross-validation to neutralize. Also, GBMs often require many trees (>1000) which can be time and memory exhaustive. Therefore, we should try to run more tests for GBMs.
 
 
