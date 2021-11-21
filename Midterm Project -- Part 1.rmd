@@ -112,7 +112,7 @@ Model2 <- function(data){
 
 ```{r code_model3_development, eval = TRUE}
 Model3 <- function(data){
-  model = randomForest(label ~ ., data = data, ntree=100, mtry=3, importance=TRUE,proximity = TRUE)
+  model = randomForest(label ~ ., data = data, ntree=20, mtry=24, importance=TRUE,proximity = TRUE)
   pred = predict(model, newdata = test)
   return(pred)
 }
@@ -260,8 +260,8 @@ Model10 = function(data){
 ## Scoreboard
 
 * Model 1: Classification Tree
-* Model 2: Random Forest with 50 trees and 2 mtry
-* Model 3: Random Forest with 100 trees and 3 mtry
+* Model 2: Random Forest with 25 trees and 24 mtry
+* Model 3: Random Forest with 20 trees and 24 mtry
 * Model 4: Multinomial Logistic Regression
 * Model 5: K-Nearest Neighbors
 * Model 6: Support Vector Machines with Linear Kernel
