@@ -3,7 +3,7 @@ MODEL REPORT
 1. Introduction
 
 In this project, 10 machine learning models were created to predict 10 types of product labels based on 49 color pixels (7x7 images). For each model, 60,000 rows of training data were used and the models were tested on 10,000 rows of testing data. The 10 types of product labels the models were trained to predict are: T-shirt/top Trouser, Pullover, Dress, Coat, Sandal, Shirt, Sneaker, Bag, and Ankle boot. Each color pixel is recorded as a brightness measurement in grayscale with 0 denoting white and 255 denoting black. The details of how each parameter for each model was chosen is described in the Discussion section of this report below. 
-
+https://github.com/drd4/Practical-Machine-Learning-Project/blob/main/Model%20Report
 2. Discussion
 
 Model 1: Classification Tree - Phoebe
@@ -18,11 +18,11 @@ For our random forest model, a tuneGrid was used to fit from 2 to 49 variables (
 
 Model 6 & 7: Support Vector Machines
 Support Vector Machines are supervised learning models with associated learning algorithms that analyze data for classification and regression analysis, which is more effecticve in high dimensional spaces. There are 4 main kernels in the SVM, and we select Linear and Gaussian (RBF) for this porject. Linear Kerenl is the most basic type of kernel, and it proves to be the best function when there are lots of features. RBF is one of the most preferred and used kernel functions in svm, and it is usually chosen for non-linear data, which usually helps to make proper separation when there is no prior knowledge of data.
-These two models have the best performance among 10 models because they provide a clear margin of separation and are very effective for dataset that having many features. However, Support Vector Machines also have disadvantages. They required higher trainning time and is very sensitive to outliers. 
+These two models have the best performances (Linear Kerenl is the number 1 model) among 10 models because they provide a clear margin of separation and are very effective for dataset that having many features. However, Support Vector Machines also have disadvantages. They required higher trainning time and is very sensitive to outliers. 
 
 
 Model 8, 9 & 10: Generalized Boosted Regression Models
-Like Random Forest, Gradient Boosting is another technique for performing supervised machine learning tasks, like classification and regression. The implementations of this technique can have different names, most commonly you encounter Gradient Boosting machines (GBM) and XGBoost.
+Like Random Forest, Gradient Boosting is another technique for performing supervised machine learning tasks, like classification and regression. The implementations of this technique can have different names, most commonly you encounter Gradient Boosting machines (GBM) and XGBoost, so in this project, we used GBM and XGBoost. For GBM, we used mutinominal for the distribution because we have 10 classifications. For XGBoost, we built two models. One is the model with 20 max.depth, and the other one has 40 max.depth. Generalized Boosted Regression Models often provide predictive accuracy that cannot be beat, but they were not in the top 10 this time because GBMs continue improving to minimize all errors, which can overemphasize outliers and cause overfitting, and we can use cross-validation to neutralize. Also, GBMs often require many trees (>1000) which can be time and memory exhaustive. Therefore, we should try to run more tests for GBMs.
 
 
 
