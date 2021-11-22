@@ -1,7 +1,7 @@
 ---
 title: "Data Science Consulting: Midterm Team Project -- Part 1"
-author: ""
-date: ""
+author: "Group 5 Phoebe Chen, Daniel Dasgupta, Devin Harrison, Haodong Xuan"
+date: "11/21/2021"
 output: html_document
 ---
 
